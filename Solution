@@ -1,0 +1,14 @@
+with new as(
+SELECT user_id, 
+       spend, 
+       transaction_date,
+       rank() over(partition by user_id 
+                   order by transaction_date) as rank_no
+FROM transactions
+) 
+select 
+  user_id, 
+  spend, 
+  transaction_date 
+from new
+where rank_no=3
